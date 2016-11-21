@@ -1,0 +1,40 @@
+/*The buildScript block determines which plugins, task classes,
+and other classes are available for use in the rest of the build script.
+Without a buildScript block, you can use everything that ships with Gradle out-of-the-box.
+        If you additionally want to use third-party plugins, task classes, or other classes (in the build script!),
+        you have to specify the corresponding dependencies in the buildScript block.*/
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+
+
+allprojects {
+    buildscript {
+        repositories {
+            mavenLocal()
+        }
+    }
+
+    group = 'com.estafet.training'
+}
+
+
+subprojects{
+	apply plugin: 'java'
+	apply plugin: 'maven-publish'
+
+	task wrapper(type: Wrapper) {
+    	gradleVersion = '2.2.1' 
+	}
+	
+	repositories {
+        mavenLocal()
+        mavenCentral()
+	}
+    
+}
+
+

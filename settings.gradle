@@ -1,0 +1,3 @@
+rootProject.name = 'CamelTask1'
+
+include 'iban'
