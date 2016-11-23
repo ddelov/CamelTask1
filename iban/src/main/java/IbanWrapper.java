@@ -1,10 +1,12 @@
+import java.util.List;
+
 /**
  * Created by Delcho Delov on 21.11.2016 г..
  */
 public class IbanWrapper {
-    private String[] ibans;
+    private List<String> ibans;
 
-    public String[] getIbans() {
+    public List<String> getIbans() {
         return ibans;
     }
 
