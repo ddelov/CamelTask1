@@ -3,12 +3,14 @@ import java.math.BigDecimal;
 import java.util.Random;
 
 /**
+ * Immutable
+ * ThreadSafe
  * Created by Delcho Delov on 21.11.2016 г.
  */
-public class IbanSingleReportEntity implements Serializable{
+public final class IbanSingleReportEntity implements Serializable{
     private final String iban;
-    private String name;
-    private double balance;
+    private final String name;
+    private final double balance;
     private final String currency = "£";
     transient private static Random rnd = new Random(4423489123001L);
 
@@ -17,7 +19,7 @@ public class IbanSingleReportEntity implements Serializable{
     IbanSingleReportEntity(String iban) {
         this.iban = iban;
         final BigDecimal amount = new BigDecimal(rnd.nextDouble()*10000).setScale(2, BigDecimal.ROUND_HALF_UP);
-        setBalance(amount.doubleValue());
+        this.balance = amount.doubleValue();
         this.name = NAMES[rnd.nextInt(10)];
     }
 
@@ -28,10 +30,6 @@ public class IbanSingleReportEntity implements Serializable{
 
     public double getBalance() {
         return balance;
-    }
-
-    private void setBalance(double balance) {
-        this.balance = balance;
     }
 
     public String getCurrency() {
