@@ -1,4 +1,5 @@
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Random;
 
 /**
@@ -15,7 +16,8 @@ public class IbanSingleReportEntity implements Serializable{
 
     IbanSingleReportEntity(String iban) {
         this.iban = iban;
-        setBalance(rnd.nextDouble()+10000);
+        final BigDecimal amount = new BigDecimal(rnd.nextDouble()*10000).setScale(2, BigDecimal.ROUND_HALF_UP);
+        setBalance(amount.doubleValue());
         this.name = NAMES[rnd.nextInt(10)];
     }
 
