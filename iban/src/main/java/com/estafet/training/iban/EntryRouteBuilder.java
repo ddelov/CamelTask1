@@ -1,6 +1,10 @@
+package com.estafet.training.iban;
+
+import com.estafet.training.model.Account;
+import com.estafet.training.model.AccountsWrapper;
+import com.estafet.training.model.IbanWrapper;
 import org.apache.camel.Exchange;
 import org.apache.camel.LoggingLevel;
-import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.dataformat.JsonLibrary;
 import org.apache.camel.model.language.ConstantExpression;
@@ -15,7 +19,13 @@ public class EntryRouteBuilder extends RouteBuilder {
     private static final String IBAN_TIMESTAMP_OF_REQUEST = "IbanTimestampOfRequest";
     private final AggregationStrategy enrichStrategy = new AccountEnrich();
     private final AggregationStrategy aggregationStrategy = new ArrayListAggregationStrategy();
-    private final Processor enrichProcessor = new EnrichProcessor();
+
+    private EnrichProcessor enrichProcessor;
+
+    public void setEnrichProcessor(EnrichProcessor enrichProcessor) {
+        this.enrichProcessor = enrichProcessor;
+    }
+
     public void configure() throws Exception {
         configureGlobalErrorHandling();
 
@@ -41,12 +51,15 @@ public class EntryRouteBuilder extends RouteBuilder {
                 .aggregate(correlationExpression, aggregationStrategy)
                 .completionTimeout(aggregateIntervalInMillis)
                 .marshal().json(JsonLibrary.Jackson, AccountsWrapper.class)
-        .to("file:/u01/data/iban/reports/?autoCreate=true&fileName=${date:now:yyyy MM dd HH mm ss SSS}.txt")
+//                .convertBodyTo(String.class, "UTF-8")
+        .to("file:/u01/data/iban/reports/?autoCreate=true&charset=UTF-8&fileName=${date:now:yyyy MM dd HH mm ss SSS}.txt")
         .end()
         .log(LoggingLevel.DEBUG, "Route ${routeId} finished");
 
         from("direct:enr").process(enrichProcessor);
     }
+
+
     private void configureGlobalErrorHandling() {
         onException(Throwable.class)
                 .handled(true)
@@ -54,19 +67,10 @@ public class EntryRouteBuilder extends RouteBuilder {
                 .log(LoggingLevel.ERROR, "Exception message: ${exception.message}\n${exception.stacktrace}")
         ;
     }
-    private class EnrichProcessor implements Processor{
-        public void process(Exchange exchange) throws Exception {
-            final String iban = (String) exchange.getIn().getBody();
-            log.debug("incoming IBAN "+ iban);
-            final IbanSingleReportEntity acc = new IbanSingleReportEntity(iban);
-            exchange.getIn().setBody(acc);
-            log.debug("After aggregation " + acc.toString());
-        }
-    }
     private class AccountEnrich implements AggregationStrategy {
         public Exchange aggregate(Exchange oldExchange, Exchange newExchange) {
             // newBody is enriched
-            IbanSingleReportEntity newBody = newExchange.getIn().getBody(IbanSingleReportEntity.class);
+            Account newBody = newExchange.getIn().getBody(Account.class);
             oldExchange.getIn().setBody(newBody);
            return oldExchange;
         }
@@ -76,8 +80,8 @@ public class EntryRouteBuilder extends RouteBuilder {
             log.debug("oldExchange is " + oldExchange);
             log.debug("newExchange is " + newExchange);
 
-            final IbanSingleReportEntity entry =  newExchange.getIn().getBody(IbanSingleReportEntity.class);
-            log.info("IbanSingleReportEntity entry " + entry.toString());
+            final Account entry =  newExchange.getIn().getBody(Account.class);
+            log.info("com.estafet.training.IbanSingleReportEntity entry " + entry.toString());
             log.info("header(IBAN_TIMESTAMP_OF_REQUEST) is " + newExchange.getIn().getHeader(IBAN_TIMESTAMP_OF_REQUEST, String.class));
             AccountsWrapper accountsWrapper = new AccountsWrapper();
             if(oldExchange!=null){

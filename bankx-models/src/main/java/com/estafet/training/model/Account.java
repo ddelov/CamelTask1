@@ -1,26 +1,23 @@
+package com.estafet.training.model;
+
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.Random;
 
 /**
  * Immutable
  * ThreadSafe
  * Created by Delcho Delov on 21.11.2016 г.
  */
-public final class IbanSingleReportEntity implements Serializable{
+public final class Account implements Serializable{
     private final String iban;
     private final String name;
     private final double balance;
-    private final String currency = "£";
-    transient private static Random rnd = new Random(4423489123001L);
+    private final String currency;
 
-    private static String NAMES[] = {"Xi Jinping", "Ma Kai", "Wang Qishan","Wang Huning","Liu Yunshan","Liu Yandong","Liu Qibao","Xu Qiliang","Sun Chunlan","Sun Zhengcai"};
-
-    IbanSingleReportEntity(String iban) {
+    public Account(String iban, String name, double balance, String currency) {
         this.iban = iban;
-        final BigDecimal amount = new BigDecimal(rnd.nextDouble()*10000).setScale(2, BigDecimal.ROUND_HALF_UP);
-        this.balance = amount.doubleValue();
-        this.name = NAMES[rnd.nextInt(10)];
+        this.name = name;
+        this.balance = balance;
+        this.currency = currency;
     }
 
     public String getName() {
@@ -42,7 +39,7 @@ public final class IbanSingleReportEntity implements Serializable{
 
     @Override
     public String toString() {
-        return "IbanSingleReportEntity{" +
+        return "com.estafet.training.IbanSingleReportEntity{" +
                 "iban='" + iban + '\'' +
                 ", name='" + name + '\'' +
                 ", balance=" + balance +

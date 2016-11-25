@@ -1,3 +1,8 @@
 rootProject.name = 'CamelTask1'
 
+include 'bankx-models'
+include 'bankx-accounts-api'
+include 'dd-service-impl'
 include 'iban'
+include 'bankx-accounts-impl'
+

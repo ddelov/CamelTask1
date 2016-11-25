@@ -8,8 +8,13 @@
         <routeBuilder ref="entryRoute" />
     </camelContext>
 	<!-- Route Builders -->
-    <bean id="entryRoute" class="EntryRouteBuilder"/>
+    <bean id="entryRoute" class="com.estafet.training.iban.EntryRouteBuilder">
+        <property name="enrichProcessor" ref="enrichProcessor"/>
+    </bean>
 
     <!-- Processors -->
+    <bean id="enrichProcessor" class="com.estafet.training.iban.EnrichProcessor">
+        <property name="accountEnricherService" ref="accountService" />
+    </bean>
 
 </blueprint>
