@@ -1,0 +1,41 @@
+group 'com.estafet.training.model'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'osgi'
+idea {
+    module {
+        testSourceDirs += file('src/integTest/java')
+        testSourceDirs += file('src/integTest/resources')
+
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+
+
+sourceSets {
+    integTest {
+        compileClasspath = sourceSets.main.output + configurations.testRuntime
+        runtimeClasspath = output + sourceSets.main.output + configurations.testRuntime
+    }
+}
+
+task integTest(type: Test) {
+    testClassesDir = sourceSets.integTest.output.classesDir
+    classpath = sourceSets.integTest.runtimeClasspath
+}
+
+
+jar {
+    manifest {
+        name = project.name
+        instruction 'Bundle-Description', 'D Delov camel task model'
+        instruction 'Export-Package', 'com.estafet.training.model'
+    }
+}
+
