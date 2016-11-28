@@ -28,15 +28,14 @@ public class EntryRouteBuilder extends RouteBuilder {
 
     public void configure() throws Exception {
         configureGlobalErrorHandling();
-
-        from("jetty:http://localhost:20616/estafet/iban/report?httpMethodRestrict=POST")
+        from("jetty:http://{{entry.route.from.host}}:{{entry.route.from.port}}{{entry.route.from.dir}}?httpMethodRestrict=POST")
                 .routeId("entry")
                 .streamCaching()
                 .unmarshal().json(JsonLibrary.Jackson, IbanWrapper.class)
                 .log(LoggingLevel.DEBUG, "Route started ${routeId}")
                 .setHeader(IBAN_TIMESTAMP_OF_REQUEST).constant("${date:now}")
                 .split(simple("${body.getIbans()}"))
-        .to("activemq:queue:estafet.iban.report.splitted.queue")
+        .to("activemq:{{entry.route.to}}")
                 .end()
                 .log(LoggingLevel.DEBUG, "Route ${routeId} finished")
                 .setHeader(Exchange.HTTP_RESPONSE_CODE).constant(200);
@@ -44,7 +43,7 @@ public class EntryRouteBuilder extends RouteBuilder {
         final long aggregateIntervalInMillis = TimeUnit.MILLISECONDS.convert(2, TimeUnit.SECONDS);
         log.info("incoming header is "+header(IBAN_TIMESTAMP_OF_REQUEST));
         ConstantExpression correlationExpression = new ConstantExpression("${date:now}");
-        from("activemq:queue:estafet.iban.report.splitted.queue")
+        from("activemq:{{processing.route.from}}")
                 .routeId("processing")
                 .log(LoggingLevel.DEBUG, "Route started ${routeId}")
                 .enrich("direct:enr", enrichStrategy)
@@ -52,7 +51,7 @@ public class EntryRouteBuilder extends RouteBuilder {
                 .completionTimeout(aggregateIntervalInMillis)
                 .marshal().json(JsonLibrary.Jackson, AccountsWrapper.class)
 //                .convertBodyTo(String.class, "UTF-8")
-        .to("file:/u01/data/iban/reports/?autoCreate=true&charset=UTF-8&fileName=${date:now:yyyy MM dd HH mm ss SSS}.txt")
+        .to("file:{{reports.file.dir}}?autoCreate=true&charset=UTF-8&fileName=${date:now:yyyy MM dd HH mm ss SSS}.txt")
         .end()
         .log(LoggingLevel.DEBUG, "Route ${routeId} finished");
 

@@ -83,3 +83,13 @@ jar {
                 '* '
     }
 }
+
+task deployPlaceholdersInFuse (/*dependsOn: [jar]*/) {
+    doLast {
+        def File configFile = file('src/main/resources/etc/bankx.placeholders.cfg')
+        copy {
+            from configFile
+            into project.file("/u01/app/jboss-fuse-6.2.1.redhat-084/etc/")
+        }
+    }
+}
