@@ -39,7 +39,7 @@ public final class Account implements Serializable{
 
     @Override
     public String toString() {
-        return "com.estafet.training.IbanSingleReportEntity{" +
+        return "com.estafet.training.Account{" +
                 "iban='" + iban + '\'' +
                 ", name='" + name + '\'' +
                 ", balance=" + balance +

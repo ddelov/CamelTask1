@@ -6,13 +6,13 @@ import java.util.List;
 /**
  * Created by Delcho Delov on 21.11.2016 г..
  */
-public final class AccountsWrapper implements Serializable{
-    private final List<Account> accounts = new ArrayList<Account>();
+public final class AccountsWrapper<T> implements Serializable{
+    private final List<T> accounts = new ArrayList<T>();
 
-    public List<Account> getAccounts() {
+    public List<T> getAccounts() {
         return accounts;
     }
-    public void addAccount(Account entry){
+    public void addAccount(T entry){
         accounts.add(entry);
     }
 }
