@@ -12,15 +12,15 @@ public class Iban2CsvProcessor implements org.apache.camel.Processor {
 
     @Override
     public void process(Exchange exchange) throws Exception {
-        ddLog.info("Iban2CvsProcessor exchange = " + exchange);
-        if(exchange!=null){
-            ddLog.info("Iban2CvsProcessor exchange payload is "+ exchange.getIn().getBody().getClass());
-        }
-        final String iban =  exchange.getIn().getBody(String.class);
-        if(iban!=null){
-            final String body = iban.replaceAll(" ", "");
-            exchange.getIn().setBody(body);
-            ddLog.info("Iban2CvsProcessor output is "+ body);
+        ddLog.info("Iban2CsvProcessor exchange = " + exchange);
+        if(exchange!=null && exchange.getIn()!=null && exchange.getIn().getBody()!=null){
+            ddLog.info("Iban2CsvProcessor exchange payload is "+ exchange.getIn().getBody().getClass());
+            final String iban =  exchange.getIn().getBody(String.class);
+            if(iban!=null){
+                final String body = iban.replaceAll(" ", "");
+                exchange.getIn().setBody(body);
+                ddLog.info("Iban2CsvProcessor output is "+ body);
+            }
         }
     }
 }

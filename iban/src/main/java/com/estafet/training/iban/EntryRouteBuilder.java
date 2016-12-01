@@ -36,9 +36,9 @@ public class EntryRouteBuilder extends RouteBuilder {
         this.enrichProcessor = enrichProcessor;
     }
 
-    public EntryRouteBuilder(){
-
-    }
+//    public EntryRouteBuilder(){
+//
+//    }
     public void configure() throws Exception {
         configureGlobalErrorHandling();
         from("jetty:http://{{entry.route.from.host}}:{{entry.route.from.port}}{{entry.route.from.dir}}?httpMethodRestrict=POST")
@@ -76,8 +76,8 @@ public class EntryRouteBuilder extends RouteBuilder {
                 .aggregate(correlationExpression, accAggregationStrategy)
                 .completionTimeout(aggregateIntervalInMillis)
                 .marshal().json(JsonLibrary.Jackson, AccountsWrapper.class)
-//        .to("file:{{reports.file.dir}}?autoCreate=true&charset=UTF-8&fileName=${date:now:yyyy MM dd HH mm ss SSS}.txt")
-        .to("sftp://{{sftp.username}}@{{sftp.host}}:{{sftp.port}}/{{sftp.upload.directory}}?password=demo-user&fileName=${date:now:yyyy MM dd HH mm ss SSS}.txt")
+        .to("file:{{reports.file.dir}}?autoCreate=true&charset=UTF-8&fileName=${date:now:yyyy MM dd HH mm ss SSS}.txt")
+//        .to("sftp://{{sftp.username}}@{{sftp.host}}:{{sftp.port}}/{{sftp.upload.directory}}?password=demo-user&fileName=${date:now:yyyy MM dd HH mm ss SSS}.txt")
                 .log(LoggingLevel.DEBUG, ddLog, "Route ${routeId} finished")
                 .end();
 
@@ -99,48 +99,26 @@ public class EntryRouteBuilder extends RouteBuilder {
         .to("file:{{reports.file.dir}}?autoCreate=true&fileExist=Append&charset=UTF-8&fileName=${date:now:yyyy MM dd}.csv")
         .end();
     }
-    private class NewFilesLogger extends DirectProcessor<org.apache.camel.component.file.GenericFile> {
 
-        @Override
-        public void process(Exchange exchange) throws Exception {
-            super.process(exchange);
-            ddLog.info("New file named [" + entry.getFileName() + "] detected");
-        }
-    }
-    private class DirectProcessor<Payload> implements Processor{
-        protected Payload entry;
-        @Override
-        public void process(Exchange exchange) throws Exception {
-            ddLog.debug("DirectProcessor exchange = " + exchange);
-            if(exchange!=null){
-                ddLog.debug("DirectProcessor exchange payload is "+ exchange.getIn().getBody().getClass());
-                entry = (Payload) exchange.getIn().getBody();
-            }
-        }
-
-        public Payload getEntry() {
-            return entry;
-        }
-    }
-    private class ConvertStringToMapProcessor implements Processor {
-        @Override
-        public void process(Exchange exchange) throws Exception {
-            ddLog.debug("ConvertAccountToMapProcessor exchange = " + exchange);
-            if(exchange!=null){
-                ddLog.debug("ConvertAccountToMapProcessor exchange payload is "+ exchange.getIn().getBody().getClass());
-            }
-            String iban = exchange.getIn().getBody(String.class);
-            final java.util.Map<String, Object> entry = new HashMap<>(1);
-            if(iban!=null && !iban.isEmpty()) {
-                iban = iban.replaceAll(" ", "");
-                entry.put(iban, iban);
-            }
-            if(entry.isEmpty()){
-                exchange.getIn().setBody(null);
-            }
-            exchange.getIn().setBody(entry);
-        }
-    }
+//    private class ConvertStringToMapProcessor implements Processor {
+//        @Override
+//        public void process(Exchange exchange) throws Exception {
+//            ddLog.debug("ConvertAccountToMapProcessor exchange = " + exchange);
+//            if(exchange!=null){
+//                ddLog.debug("ConvertAccountToMapProcessor exchange payload is "+ exchange.getIn().getBody().getClass());
+//            }
+//            String iban = exchange.getIn().getBody(String.class);
+//            final java.util.Map<String, Object> entry = new HashMap<>(1);
+//            if(iban!=null && !iban.isEmpty()) {
+//                iban = iban.replaceAll(" ", "");
+//                entry.put(iban, iban);
+//            }
+//            if(entry.isEmpty()){
+//                exchange.getIn().setBody(null);
+//            }
+//            exchange.getIn().setBody(entry);
+//        }
+//    }
     private class ConvertAccountsWrapperToMapProcessor implements Processor{
         @Override
         public void process(Exchange exchange) throws Exception {
@@ -205,26 +183,26 @@ public class EntryRouteBuilder extends RouteBuilder {
 //            return oldExchange;
 //        }
 //    }
-    private class ArrayListAggregationStrategy<T> implements AggregationStrategy {
-        public Exchange aggregate(Exchange oldExchange, Exchange newExchange) {
-            ddLog.debug("oldExchange is " + (oldExchange!=null?oldExchange.getIn():"null"));
-            ddLog.debug("newExchange is " + (newExchange!=null?newExchange.getIn():"null"));
-            ddLog.debug("ArrayListAggregationStrategyl.aggregate newExchange payload is "+ newExchange.getIn().getBody().getClass());
-            final T entry = (T) newExchange.getIn().getBody(/*Account.class*/);
-            ddLog.debug("T entry " + (entry!=null?entry:"NULL"));
-            AccountsWrapper<T> accountsWrapper = new AccountsWrapper<T>();
-            if(oldExchange!=null){
-                accountsWrapper = oldExchange.getIn().getBody(AccountsWrapper.class);
-                if(accountsWrapper==null){
-                    accountsWrapper = new AccountsWrapper();
-                }
-            }else{
-                oldExchange = newExchange.copy();
-            }
-            accountsWrapper.addAccount(entry);
-
-            oldExchange.getIn().setBody(accountsWrapper);
-            return oldExchange;
-        }
-    }
+//    private class ArrayListAggregationStrategy<T> implements AggregationStrategy {
+//        public Exchange aggregate(Exchange oldExchange, Exchange newExchange) {
+//            ddLog.debug("oldExchange is " + (oldExchange!=null?oldExchange.getIn():"null"));
+//            ddLog.debug("newExchange is " + (newExchange!=null?newExchange.getIn():"null"));
+//            ddLog.debug("ArrayListAggregationStrategyl.aggregate newExchange payload is "+ newExchange.getIn().getBody().getClass());
+//            final T entry = (T) newExchange.getIn().getBody(/*Account.class*/);
+//            ddLog.debug("T entry " + (entry!=null?entry:"NULL"));
+//            AccountsWrapper<T> accountsWrapper = new AccountsWrapper<T>();
+//            if(oldExchange!=null){
+//                accountsWrapper = oldExchange.getIn().getBody(AccountsWrapper.class);
+//                if(accountsWrapper==null){
+//                    accountsWrapper = new AccountsWrapper();
+//                }
+//            }else{
+//                oldExchange = newExchange.copy();
+//            }
+//            accountsWrapper.addAccount(entry);
+//
+//            oldExchange.getIn().setBody(accountsWrapper);
+//            return oldExchange;
+//        }
+//    }
 }
