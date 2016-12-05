@@ -4,15 +4,12 @@ import org.apache.camel.Exchange;
 import org.apache.camel.test.junit4.CamelTestSupport;
 import org.junit.Test;
 
-import java.util.logging.Logger;
-
 import static org.hamcrest.CoreMatchers.is;
 
 /**
  * Created by Delcho Delov on 30/11/16.
  */
 public class Iban2CsvProcessorTest extends CamelTestSupport {
-    private static final Logger LOGGER = Logger.getLogger(Iban2CsvProcessorTest.class.getName());
     private final Iban2CsvProcessor processor = new Iban2CsvProcessor();
     private final static String IBAN_ONE = "BG66 ESTF 0616 0000 0000 01";
     private final static String IBAN_ONE_COMPRESSED = "BG66ESTF06160000000001";
@@ -66,18 +63,4 @@ public class Iban2CsvProcessorTest extends CamelTestSupport {
         }
     }
 
-//    private String readPayload(String name) {
-//        String content = null;
-//
-//        URL url = this.getClass().getResource(
-//                "/json/payloads/" + name + ".json");
-//        try {
-//            System.out.println("Resources Path : " + url.getFile());
-//            content = new String(Files.readAllBytes(Paths.get(url.getFile())));
-//        } catch (IOException e) {
-//            LOGGER.log(Level.SEVERE, e.getMessage(), e);
-//        }
-//
-//        return content;
-//    }
 }

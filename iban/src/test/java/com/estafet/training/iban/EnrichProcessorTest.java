@@ -16,11 +16,11 @@ import static org.hamcrest.CoreMatchers.is;
 public class EnrichProcessorTest extends CamelTestSupport {
 //    private static final Logger LOGGER = Logger.getLogger(EnrichProcessorTest.class.getName());
     private final EnrichProcessor processor = new EnrichProcessor();
-    private final static String IBAN_ONE = "BG66 ESTF 0616 0000 0000 01";
-    private final static String OWNER = "D. Delov";
-    private static final BigDecimal BALANCE = new BigDecimal(7737.73).setScale(2, BigDecimal.ROUND_HALF_UP);
-    private static final String CURRENCY = "£";
-    private static final AccountServiceApi dummyAccServiceImpl = new ConstAccService();
+    static final String IBAN_ONE = "BG66 ESTF 0616 0000 0000 01";
+    static final String OWNER = "D. Delov";
+    static final BigDecimal BALANCE = new BigDecimal(7737.73).setScale(2, BigDecimal.ROUND_HALF_UP);
+    static final String CURRENCY = "£";
+    static final AccountServiceApi dummyAccServiceImpl = new ConstAccService();
 
     @Test
     public void testAccountEnricherService() {

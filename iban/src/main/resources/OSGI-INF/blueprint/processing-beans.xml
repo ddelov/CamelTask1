@@ -6,10 +6,22 @@
     <!-- Camel Context -->
     <camelContext xmlns="http://camel.apache.org/schema/blueprint" id="com.estafet.ddelov.context">
         <routeBuilder ref="entryRoute" />
+        <routeBuilder ref="processingRoute" />
+        <routeBuilder ref="reportsFileRoute" />
+        <routeBuilder ref="cronLogRoute" />
+        <routeBuilder ref="csvRoute" />
     </camelContext>
 	<!-- Route Builders -->
     <bean id="entryRoute" class="com.estafet.training.iban.EntryRouteBuilder">
-        <property name="enrichProcessor" ref="enrichProcessor"/>
+    </bean>
+    <bean id="processingRoute" class="com.estafet.training.iban.ProcessingRouteBuilder">
+    </bean>
+    <bean id="reportsFileRoute" class="com.estafet.training.iban.ReportsFileBuilder"/>
+
+
+    <bean id="cronLogRoute" class="com.estafet.training.iban.CronLogBuilder">
+    </bean>
+    <bean id="csvRoute" class="com.estafet.training.iban.CsvRouteBuilder">
     </bean>
 
     <!-- Processors -->

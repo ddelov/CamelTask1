@@ -46,6 +46,7 @@ dependencies {
     compile group : 'org.apache.camel', name : 'camel-test-blueprint', version : '2.15.1'
     compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.7'
     compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.7'
+    compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1'
 
 //    compile group:  'com.github.json-schema-validator', name: 'json-schema-validator-bundle', version: '2.2.5'
 
@@ -57,9 +58,11 @@ dependencies {
     testRuntime 'org.apache.activemq:activemq-all:5.11.0'
     testRuntime 'org.apache.activemq:activemq-camel:5.11.0'
 
-    testCompile 'org.mockito:mockito-core:1.+'
+//    testCompile 'org.mockito:mockito-core:1.+'
     testCompile 'com.jayway.restassured:rest-assured:2.4.0'
     testCompile 'com.jayway.restassured:json-schema-validator:2.4.0'
+    // https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple
+
 
     integTestCompile 'com.jayway.restassured:rest-assured:2.4.0'
     integTestCompile 'com.jayway.restassured:json-schema-validator:2.4.0'
