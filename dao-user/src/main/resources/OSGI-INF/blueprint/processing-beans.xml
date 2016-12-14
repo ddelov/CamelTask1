@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+           xsi:schemaLocation="
+             http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd">
+    <!-- Camel Context -->
+    <camelContext xmlns="http://camel.apache.org/schema/blueprint" id="com.estafet.ddelov.context">
+        <!--<routeBuilder ref="dao.entry" />-->
+        <routeBuilder ref="dao.facade.entry" />
+        <!--<routeBuilder ref="reportsFileRoute" />-->
+        <!--<routeBuilder ref="cronLogRoute" />-->
+        <!--<routeBuilder ref="csvRoute" />-->
+    </camelContext>
+	<!-- Route Builders -->
+    <!--<bean id="dao.entry" class="com.estafet.training.dao.route.IbanPersistRoute"/>-->
+    <bean id="dao.facade.entry" class="com.estafet.training.dao.route.DaoFacadeRoute"/>
+
+    <!-- Processors -->
+    <!--<bean id="persistAccountProcessor" class="com.estafet.training.dao.processor.PersistAccountProcessor">-->
+        <!--<property name="ibanDaoService" ref="ibanDaoService" />-->
+    <!--</bean>-->
+    <bean id="daoFacadeProcessor" class="com.estafet.training.dao.processor.DaoFacadeProcessor">
+        <property name="ibanDaoService" ref="ibanDaoService" />
+    </bean>
+    <!-- External services -->
+    <reference id="ibanDaoService" interface="com.estafet.training.dao.api.IbanDaoApi"/>
+
+</blueprint>

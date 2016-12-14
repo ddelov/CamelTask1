@@ -1,4 +1,4 @@
-package com.estafet.training.impl2;
+package com.estafet.training.dao.impl;
 
 import com.estafet.training.api.AccountServiceApi;
 import com.estafet.training.model.Account;

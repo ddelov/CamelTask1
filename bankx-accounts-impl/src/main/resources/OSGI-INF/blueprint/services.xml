@@ -5,7 +5,7 @@
                 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd">
 
 
-    <bean id="accountServiceImpl" class="com.estafet.training.impl2.AccountServiceImpl" />
+    <bean id="accountServiceImpl" class="com.estafet.training.dao.impl.AccountServiceImpl" />
     <service id="accountService" ref="accountServiceImpl" interface="com.estafet.training.api.AccountServiceApi"/>
 
 </blueprint>

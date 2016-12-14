@@ -5,4 +5,8 @@ include 'bankx-accounts-api'
 include 'dd-service-impl'
 include 'iban'
 include 'bankx-accounts-impl'
+include 'iban-dao-model'
+include 'iban-dao-api'
+include 'iban-dao-impl'
+include 'dao-user'
 
