@@ -1,6 +1,7 @@
 package com.estafet.training.iban;
 
 import com.estafet.training.api.AccountServiceApi;
+import com.estafet.training.iban.processor.EnrichProcessor;
 import com.estafet.training.model.Account;
 import org.apache.camel.Exchange;
 import org.apache.camel.test.junit4.CamelTestSupport;
@@ -16,7 +17,7 @@ import static org.hamcrest.CoreMatchers.is;
 public class EnrichProcessorTest extends CamelTestSupport {
 //    private static final Logger LOGGER = Logger.getLogger(EnrichProcessorTest.class.getName());
     private final EnrichProcessor processor = new EnrichProcessor();
-    static final String IBAN_ONE = "BG66 ESTF 0616 0000 0000 01";
+    static final String IBAN_ONE = "BG66ESTF06160000000001";
     static final String OWNER = "D. Delov";
     static final BigDecimal BALANCE = new BigDecimal(7737.73).setScale(2, BigDecimal.ROUND_HALF_UP);
     static final String CURRENCY = "£";

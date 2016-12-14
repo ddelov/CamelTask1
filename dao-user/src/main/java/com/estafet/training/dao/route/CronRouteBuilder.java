@@ -7,35 +7,25 @@ import org.apache.camel.builder.RouteBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Set;
-
 import static org.apache.camel.model.dataformat.JsonLibrary.Jackson;
 
-
 /**
- * Created by Delcho Delov on 08/12/16.
+ * Created by Delcho Delov on 14/12/16.
  */
-public class DaoFacadeRoute extends RouteBuilder {
+public class CronRouteBuilder extends RouteBuilder {
     private final Logger ddLog = LoggerFactory.getLogger(DaoFacadeRoute.class);
 
     @Override
     public void configure() throws Exception {
         configureGlobalErrorHandling();
-        from("jetty:http://{{dao.route.from.host}}:{{dao.route.from.port}}{{dao.route.from.facade}}?httpMethodRestrict=POST")
-                .routeId("dao.facade.entry")
-                .streamCaching()
-                .unmarshal().json(Jackson, DaoObjectWrapper.class)
-                .log(LoggingLevel.DEBUG, ddLog, "Route started ${routeId}")
-                .to("direct:to.facade")
-                .to("direct:checkOutput")
-                .end()
+        from("quartz2://chkUpdtdAcc?cron=0+30+0/1+*+*+?")
+                .routeId("checkUpdatedAccountsSinceLastHour")
+                .log(LoggingLevel.DEBUG, ddLog, "Route ${routeId} started")
+                .processRef("check4UpdatedAccProcessor")
+                .marshal().json(Jackson, DaoObjectWrapper.class)
+                .to("jetty:http://{{dao.route.from.host}}:{{dao.route.from.port}}{{dao.route.from.facade}}?httpMethodRestrict=POST")
                 .log(LoggingLevel.DEBUG, ddLog, "Route ${routeId} finished")
-                .setHeader(Exchange.HTTP_RESPONSE_CODE).constant(200);
-
-        from("direct:to.facade").processRef("daoFacadeProcessor");
-        from("direct:checkOutput")
-                .marshal().json(Jackson, Set.class)
-        .to("file:{{reports.file.dir}}?autoCreate=true&fileExist=Append&charset=UTF-8");
+                .end();
 
     }
     private void configureGlobalErrorHandling() {
@@ -44,5 +34,4 @@ public class DaoFacadeRoute extends RouteBuilder {
                 .setHeader(Exchange.HTTP_RESPONSE_CODE).constant(500)
                 .log(LoggingLevel.ERROR, ddLog, "Exception message: ${exception.message}\n${exception.stacktrace}");
     }
-
 }

@@ -1,5 +1,6 @@
-package com.estafet.training.iban;
+package com.estafet.training.iban.route;
 
+import com.estafet.training.iban.strategy.ArrayListAggregationStrategy;
 import com.estafet.training.model.Account;
 import com.estafet.training.model.AccountsWrapper;
 import org.apache.camel.Exchange;

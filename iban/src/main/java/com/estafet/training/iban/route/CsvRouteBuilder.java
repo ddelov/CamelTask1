@@ -1,5 +1,8 @@
-package com.estafet.training.iban;
+package com.estafet.training.iban.route;
 
+import com.estafet.training.iban.processor.ConvertAccountsWrapperToMapProcessor;
+import com.estafet.training.iban.processor.Iban2CsvProcessor;
+import com.estafet.training.iban.strategy.ArrayListAggregationStrategy;
 import org.apache.camel.Exchange;
 import org.apache.camel.Expression;
 import org.apache.camel.LoggingLevel;

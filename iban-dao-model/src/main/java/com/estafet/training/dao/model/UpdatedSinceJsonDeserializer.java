@@ -28,7 +28,7 @@ public class UpdatedSinceJsonDeserializer extends JsonDeserializer<UpdatedSince>
             switch (currentToken) {
                 case VALUE_STRING:
                     final String stampParameter = jp.getText();
-                    ddLog.info(jp.getCurrentName()+ " = "+ stampParameter);
+                    ddLog.debug(jp.getCurrentName()+ " = "+ stampParameter);
                     if(jp.getCurrentName().equals("timestamp")){
                         try {
                             calendar.setTime(UpdatedSince.BG_STAMP_FORMAT.parse(stampParameter));

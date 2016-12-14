@@ -23,11 +23,11 @@ public class DaoObjectWrapperJsonDeserializer extends JsonDeserializer<DaoObject
         DaoObject payload = null;
         JsonToken currentToken = null;
         while ((currentToken = jp.nextValue()) != null) {
-            ddLog.info("currentToken = " + currentToken);
-            ddLog.info("jp.getCurrentName() = "+ jp.getCurrentName());
+            ddLog.debug("currentToken = " + currentToken);
+            ddLog.debug("jp.getCurrentName() = "+ jp.getCurrentName());
             switch (currentToken) {
                 case VALUE_STRING:
-                    ddLog.info(jp.getCurrentName()+ " = "+ jp.getText());
+                    ddLog.debug(jp.getCurrentName()+ " = "+ jp.getText());
                     if(jp.getCurrentName().equals("operation")){
                         operation= DaoOperation.valueOf(jp.getText());
                     }
@@ -43,16 +43,12 @@ public class DaoObjectWrapperJsonDeserializer extends JsonDeserializer<DaoObject
                     }
                     break;
                 case VALUE_NUMBER_FLOAT:
-                    ddLog.info("jp.getDecimalValue() = "+ jp.getDecimalValue());break;
+                    ddLog.debug("jp.getDecimalValue() = "+ jp.getDecimalValue());break;
                 case VALUE_NUMBER_INT:
-                    ddLog.info("jp.getBigIntegerValue() = "+ jp.getBigIntegerValue());break;
+                    ddLog.debug("jp.getBigIntegerValue() = "+ jp.getBigIntegerValue());break;
             }
         }
 
         return new DaoObjectWrapper(operation, payload);
-
-
-
-
     }
 }

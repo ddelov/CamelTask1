@@ -12,20 +12,20 @@
         <routeBuilder ref="csvRoute" />
     </camelContext>
 	<!-- Route Builders -->
-    <bean id="entryRoute" class="com.estafet.training.iban.EntryRouteBuilder">
+    <bean id="entryRoute" class="com.estafet.training.iban.route.EntryRouteBuilder">
     </bean>
-    <bean id="processingRoute" class="com.estafet.training.iban.ProcessingRouteBuilder">
+    <bean id="processingRoute" class="com.estafet.training.iban.route.ProcessingRouteBuilder">
     </bean>
-    <bean id="reportsFileRoute" class="com.estafet.training.iban.ReportsFileBuilder"/>
+    <bean id="reportsFileRoute" class="com.estafet.training.iban.route.ReportsFileBuilder"/>
 
 
-    <bean id="cronLogRoute" class="com.estafet.training.iban.CronLogBuilder">
+    <bean id="cronLogRoute" class="com.estafet.training.iban.route.CronLogBuilder">
     </bean>
-    <bean id="csvRoute" class="com.estafet.training.iban.CsvRouteBuilder">
+    <bean id="csvRoute" class="com.estafet.training.iban.route.CsvRouteBuilder">
     </bean>
 
     <!-- Processors -->
-    <bean id="enrichProcessor" class="com.estafet.training.iban.EnrichProcessor">
+    <bean id="enrichProcessor" class="com.estafet.training.iban.processor.EnrichProcessor">
         <property name="accountEnricherService" ref="accountService" />
     </bean>
 

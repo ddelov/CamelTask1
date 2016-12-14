@@ -1,4 +1,4 @@
-package com.estafet.training.iban;
+package com.estafet.training.iban.route;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.LoggingLevel;

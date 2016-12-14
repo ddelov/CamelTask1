@@ -1,4 +1,4 @@
-package com.estafet.training.iban;
+package com.estafet.training.iban.processor;
 
 import org.apache.camel.Exchange;
 import org.slf4j.Logger;

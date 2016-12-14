@@ -1,0 +1,65 @@
+group 'com.estafet.training.model'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    repositories {
+        flatDir dirs: "gradle-plugin"
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'at.schmutterer.oss.gradle:gradle-openjpa:1.0.0'
+        classpath 'org.apache.openjpa:openjpa:2.3.0'
+    }
+}
+
+apply plugin: 'openjpa'
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'osgi'
+
+openjpa {
+    persistenceXmlFile = file('src/main/resources/META-INF/osgi-persistence.xml')
+}
+
+dependencies {
+    compile project(':bankx-models')
+    compile 'org.apache.openjpa:openjpa:2.3.0'
+    compile 'commons-dbcp:commons-dbcp:1.4'
+    compile 'org.apache.commons:commons-lang3:3.2.1'
+    compile group : 'org.apache.camel', name : 'camel-jackson', version: '2.15.1'
+
+    compile 'javax.validation:validation-api:1.1.0.Final'
+    compile 'log4j:log4j:1.2.17'
+    compile 'org.slf4j:slf4j-simple:1.6.1'
+
+    testCompile group: 'org.apache.camel', name: 'camel-test', version: '2.15.1'
+    testCompile "org.apache.openjpa:openjpa:2.3.0"
+    testCompile 'org.mockito:mockito-core:1.9.5'
+    testCompile 'org.dbunit:dbunit:2.4.9'
+
+    testRuntime 'org.postgresql:postgresql:9.2-1004-jdbc4'
+}
+
+
+jar {
+    manifest {
+        instruction 'Bundle-Description', 'D Delov camel task DAO model'
+        instruction 'Meta-Persistence', 'META-INF/osgi-persistence.xml'
+        instruction 'Import-Package', 'com.estafet.training.model, ' +
+                'com.estafet.training.api, ' +
+                'org.apache.commons.dbcp, ' +
+                'javax.sql, ' +
+                '*'
+        instruction 'Export-Package', 'com.estafet.training.dao.model, com.estafet.training.dao.exception'
+
+    }
+}
+task deployPlaceholdersInFuse (/*dependsOn: [jar]*/) {
+    doLast {
+        def File configFile = file('src/main/resources/etc/bankx.dao.model.placeholders.cfg')
+        copy {
+            from configFile
+            into project.file("/u01/app/jboss-fuse-6.2.1.redhat-084/etc/")
+        }
+    }
+}

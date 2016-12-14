@@ -1,4 +1,4 @@
-package com.estafet.training.iban;
+package com.estafet.training.iban.strategy;
 
 import com.estafet.training.model.AccountsWrapper;
 import org.apache.camel.Exchange;

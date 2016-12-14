@@ -1,4 +1,4 @@
-package com.estafet.training.iban;
+package com.estafet.training.iban.processor;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Created by Delcho Delov on 30/11/16.
  */
-class DirectProcessor<Payload> implements Processor {
+public class DirectProcessor<Payload> implements Processor {
 //    private EntryRouteBuilder entryRouteBuilder;
     private final Logger ddLog = LoggerFactory.getLogger(DirectProcessor.class);
     protected Payload entry;

@@ -1,0 +1,52 @@
+group 'com.estafet.training.api'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'osgi'
+idea {
+    module {
+        testSourceDirs += file('src/integTest/java')
+        testSourceDirs += file('src/integTest/resources')
+
+    }
+}
+
+sourceCompatibility = 1.7
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+//    compile project(':bankx-models')
+    compile project(':iban-dao-model')
+//    compile group : 'org.apache.camel', name : 'camel-jackson', version: '2.15.1'
+//    compile group : 'org.apache.camel', name : 'camel-core', version: '2.15.1'
+//    compile group : 'org.apache.camel', name : 'camel-jetty', version: '2.15.1'
+}
+
+sourceSets {
+    integTest {
+        compileClasspath = sourceSets.main.output + configurations.testRuntime
+        runtimeClasspath = output + sourceSets.main.output + configurations.testRuntime
+    }
+}
+
+task integTest(type: Test) {
+    testClassesDir = sourceSets.integTest.output.classesDir
+    classpath = sourceSets.integTest.runtimeClasspath
+}
+
+
+jar {
+    manifest {
+        name = project.name
+        instruction 'Bundle-Description', 'D Delov camel task DAO api'
+        instruction 'Import-Package', 'com.estafet.training.model, ' +
+                'com.estafet.training.dao.exception, ' +
+                '*'
+        instruction 'Export-Package', 'com.estafet.training.dao.api'
+    }
+}
+

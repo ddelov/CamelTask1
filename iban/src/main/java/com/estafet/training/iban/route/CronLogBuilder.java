@@ -1,5 +1,6 @@
-package com.estafet.training.iban;
+package com.estafet.training.iban.route;
 
+import com.estafet.training.iban.processor.NewFilesLogger;
 import org.apache.camel.Exchange;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
@@ -17,9 +18,8 @@ public class CronLogBuilder extends RouteBuilder {
     public void configure() throws Exception {
         configureGlobalErrorHandling();
         // cron task executed every hour that checks for new files in directory and logs them (if any)
-        from("file:{{reports.file.dir}}?noop=true&scheduler=quartz2&scheduler.cron=0+0/1+*+*+*+?")
-                .routeId(ROUTE_FILE_CRON)
-//                .multicast()
+        from("file:{{reports.file.dir}}?noop=true&scheduler=quartz2&scheduler.cron=0+0+0/1+*+*+?")
+               .routeId(ROUTE_FILE_CRON)
         .process(new NewFilesLogger()).end();
 
     }

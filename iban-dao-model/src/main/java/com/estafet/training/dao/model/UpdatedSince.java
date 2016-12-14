@@ -1,6 +1,7 @@
 package com.estafet.training.dao.model;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,6 +13,7 @@ import java.util.Locale;
  * Created by Delcho Delov on 13/12/16.
  */
 @JsonDeserialize(using = UpdatedSinceJsonDeserializer.class)
+@JsonSerialize(using = UpdatedSinceJsonSerialiser.class)
 public final class UpdatedSince implements DaoObject {
     private final Calendar calendar;
     public static final String STAMP_PATTERN = "dd/MM/yy HH:mm:ss +0200";

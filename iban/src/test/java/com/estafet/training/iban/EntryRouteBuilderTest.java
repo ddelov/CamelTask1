@@ -1,5 +1,6 @@
 package com.estafet.training.iban;
 
+import com.estafet.training.iban.route.EntryRouteBuilder;
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.http.ContentType;
 import org.apache.camel.CamelContext;
@@ -21,7 +22,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static com.estafet.training.iban.EntryRouteBuilder.ROUTE_ENTRY;
+import static com.estafet.training.iban.route.EntryRouteBuilder.ROUTE_ENTRY;
 import static com.jayway.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
 

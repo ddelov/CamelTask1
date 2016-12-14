@@ -1,5 +1,6 @@
 package com.estafet.training.iban;
 
+import com.estafet.training.iban.processor.DirectProcessor;
 import org.apache.camel.test.junit4.CamelTestSupport;
 import org.junit.Test;
 

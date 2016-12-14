@@ -5,23 +5,20 @@
              http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd">
     <!-- Camel Context -->
     <camelContext xmlns="http://camel.apache.org/schema/blueprint" id="com.estafet.ddelov.context">
-        <!--<routeBuilder ref="dao.entry" />-->
         <routeBuilder ref="dao.facade.entry" />
-        <!--<routeBuilder ref="reportsFileRoute" />-->
-        <!--<routeBuilder ref="cronLogRoute" />-->
-        <!--<routeBuilder ref="csvRoute" />-->
+        <routeBuilder ref="checkUpdatedAccountsSinceLastHour" />
     </camelContext>
+
 	<!-- Route Builders -->
-    <!--<bean id="dao.entry" class="com.estafet.training.dao.route.IbanPersistRoute"/>-->
     <bean id="dao.facade.entry" class="com.estafet.training.dao.route.DaoFacadeRoute"/>
+    <bean id="checkUpdatedAccountsSinceLastHour" class="com.estafet.training.dao.route.CronRouteBuilder"/>
 
     <!-- Processors -->
-    <!--<bean id="persistAccountProcessor" class="com.estafet.training.dao.processor.PersistAccountProcessor">-->
-        <!--<property name="ibanDaoService" ref="ibanDaoService" />-->
-    <!--</bean>-->
     <bean id="daoFacadeProcessor" class="com.estafet.training.dao.processor.DaoFacadeProcessor">
         <property name="ibanDaoService" ref="ibanDaoService" />
     </bean>
+    <bean id="check4UpdatedAccProcessor" class="com.estafet.training.dao.processor.Check4UpdatedAccProcessor"/>
+
     <!-- External services -->
     <reference id="ibanDaoService" interface="com.estafet.training.dao.api.IbanDaoApi"/>
 

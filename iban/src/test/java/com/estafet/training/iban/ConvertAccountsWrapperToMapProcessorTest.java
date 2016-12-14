@@ -1,5 +1,6 @@
 package com.estafet.training.iban;
 
+import com.estafet.training.iban.processor.ConvertAccountsWrapperToMapProcessor;
 import com.estafet.training.model.AccountsWrapper;
 import org.apache.camel.Exchange;
 import org.apache.camel.test.junit4.CamelTestSupport;

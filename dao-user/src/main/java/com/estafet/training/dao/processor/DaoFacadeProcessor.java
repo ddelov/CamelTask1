@@ -24,10 +24,7 @@ public class DaoFacadeProcessor implements Processor{
     @Override
     public void process(Exchange exchange) throws Exception {
         ddLog.info("DaoFacadeProcessor.process is called");
-//        final UpdateBalance4Iban daoFacade = exchange.getIn().getBody(UpdateBalance4Iban.class);
         final DaoObjectWrapper wrapper = exchange.getIn().getBody(DaoObjectWrapper.class);
-//        ddLog.info("\n---------->ibanDaoService "+ ibanDaoService);
-//        final IbanBalanceTuple payload = daoFacade.getPayload();
         final DaoOperation operation = wrapper.getOperation();
         ddLog.info("incoming operation "+ operation);
         final DaoObject payload = wrapper.getPayload();

@@ -1,0 +1,12 @@
+
+http://localhost:20616/estafet/iban/daofacade
+
+//deprecated {"iban":"BG66 ESTF 0616 0000 0000 01","name":"D. Delov","balance":102.53,"currency":"£"}
+
+{"operation":"PERSIST","payload":{"iban":"BG66 ESTF 0616 0000 0000 01","name":"D. Delov","balance":102.53,"currency":"£"}}
+
+{"operation":"PERSIST","payload":{"iban":"BG66 ESTF 0616 0000 0000 02","name":"M. Praznikov","balance":1000.89,"currency":"£"}}
+
+{"operation":"UPDATE_BALANCE","payload":{"newBalance":10234567.89,"iban":"BG66 ESTF 0616 0000 0000 01"}}
+
+{"operation":"FIND_UPDATED_SINCE","payload":{"timestamp":"13/12/16 15:01:29 +0200"}}

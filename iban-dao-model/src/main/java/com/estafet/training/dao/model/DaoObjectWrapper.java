@@ -1,6 +1,7 @@
 package com.estafet.training.dao.model;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.io.Serializable;
 
@@ -8,6 +9,7 @@ import java.io.Serializable;
  * Created by Delcho Delov on 12/12/16.
  */
 @JsonDeserialize(using = DaoObjectWrapperJsonDeserializer.class)
+@JsonSerialize(using = DaoObjectWrapperJsonSerialiser.class)
 public class DaoObjectWrapper<Operation extends DaoOperation, Payload extends DaoObject> implements Serializable{
     protected final Operation operation;// = DaoOperation.UPDATE_BALANCE;
     protected Payload payload; // json

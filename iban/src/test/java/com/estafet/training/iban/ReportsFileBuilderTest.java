@@ -1,6 +1,8 @@
 package com.estafet.training.iban;
 
 import com.estafet.training.api.AccountServiceApi;
+import com.estafet.training.iban.processor.EnrichProcessor;
+import com.estafet.training.iban.route.ReportsFileBuilder;
 import org.apache.camel.CamelContext;
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
@@ -21,7 +23,7 @@ import javax.xml.bind.JAXBException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static com.estafet.training.iban.ReportsFileBuilder.ROUTE_DIRECT_ENR;
+import static com.estafet.training.iban.route.ReportsFileBuilder.ROUTE_DIRECT_ENR;
 import static org.hamcrest.CoreMatchers.is;
 
 /**
@@ -100,7 +102,7 @@ public class ReportsFileBuilderTest extends CamelTestSupport {
         // we must manually start when we are done with all the advice with
         context.start();
         final long aggregateIntervalInMillis = TimeUnit.MILLISECONDS.convert(1, TimeUnit.SECONDS);
-        String IBANS[] = {"BG66 ESTF 0616 0000 0000 21", "BG66 ESTF 0616 0000 0000 22", "BG66 ESTF 0616 0000 0000 23"};
+        String IBANS[] = {"BG66ESTF06160000000021", "BG66ESTF06160000000022", "BG66ESTF06160000000023"};
 
         MockEndpoint mockEndpoint = getMockEndpoint("mock:muuEntry.test");
         mockEndpoint.expectedMessageCount(1);
